@@ -1,11 +1,15 @@
 #Garbage Collection Assignment 
-##The task 
+
+##The task
+ 
 The goal of this assignment is to implement a of a Garbage collection 
 algorithm for a Java virtual machine. The simulation is to be similar to 
 that implemented as an applet at: 
 http://www.artima.com/insidejvm/applets/HeapOfFish.html 
+
 ##The project 
-The stages to this project would include the following: 
+The stages to this project would include the following:
+
 * Research and comprehend the Garbage collection algorithm. Mark 
 and Sweep is the demonstrated algorithm. However, Java 
 implementations can vary the garbage collection algorithm. You 
@@ -23,7 +27,8 @@ includes animation graphics which are not expected in this Project.
 
 * A more basic user interface would be acceptable. 
  
-##General Description 
+##General Description
+ 
 To facilitate compaction, this heap uses indirect handles to objects instead 
 of direct references. It is called Heap of Fish because the only types of 
 objects stored on the heap for this demonstration are fish objects, defined 
@@ -73,12 +78,14 @@ A more complete description of one implementation can be found at:
 http://www.artima.com/insidejvm/applets/HeapOfFish.html 
 
 ### Deliverables: 
+
 1. A short (Formative) preliminary report, (due 20th
  March) indicating: 
   1. the garbage collection algorithms investigated. 
   2. the garbage collection algorithm chosen with reasoning. 
   3. proposed data structures. 
   4. envisaged user interface. 
+
 2. Working code (due 9th April) to include: 
   1. user-interface, 
   2. object (fish) allocation functionality 
@@ -86,11 +93,13 @@ http://www.artima.com/insidejvm/applets/HeapOfFish.html
   4. garbage collection code 
   4. heap compaction code 
   5. current representation of data structures 
+
 3. Implementation Report 
   1. the garbage collection algorithms investigated. 
   2. the garbage collection algorithm chosen with reasoning. 
   3. data structures. 
   4. user interface. 
   5. statement of authorship 
+
 Note: This is an individual assignment. All the work done as part of this 
 assignment must be done by you personally.
