@@ -6,7 +6,7 @@ that implemented as an applet at:
 http://www.artima.com/insidejvm/applets/HeapOfFish.html 
 ##The project 
 The stages to this project would include the following: 
-? Research and comprehend the Garbage collection algorithm. Mark 
+* Research and comprehend the Garbage collection algorithm. Mark 
 and Sweep is the demonstrated algorithm. However, Java 
 implementations can vary the garbage collection algorithm. You 
 may choose an alternative algorithm. An outline of the algorithm 
@@ -47,8 +47,7 @@ class RedFish {
 ```
 
 As you can see, there are three classes of fish: red, yellow, and blue. The 
-red fish is the largest as it has three instance variables. The yellow fish, with only one instance variable, is the smallest fish. The blue fish has two 
-instance variables and is therefore medium-sized. 
+red fish is the largest as it has three instance variables. The yellow fish, with only one instance variable, is the smallest fish. The blue fish has two instance variables and is therefore medium-sized. 
 The instance variables of fish objects are references to other fish 
 objects. BlueFish.myLunch, for example, is a reference to 
 a YellowFish object. In this implementation of a garbage-collected heap, a 
@@ -57,6 +56,7 @@ instance data of a RedFish object is twelve bytes, a BlueFish object is
 eight bytes, and a YellowFish object is four bytes. 
 
 Our Heap of Fish has four modes, which can be selected via radio buttons. 
+
 The four modes— 
 * allocate fish 
   * you can instantiate new fish objects 
