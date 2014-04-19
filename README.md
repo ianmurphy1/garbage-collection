@@ -59,6 +59,7 @@ eight bytes, and a YellowFish object is four bytes.
 Our Heap of Fish has four modes, which can be selected via radio buttons. 
 
 The four modes:
+
 * allocate fish 
   * you can instantiate new fish objects 
 * assign references 
@@ -74,24 +75,28 @@ A more complete description of one implementation can be found at:
 http://www.artima.com/insidejvm/applets/HeapOfFish.html 
 
 ### Deliverables: 
+
 1. A short (Formative) preliminary report, (due 20th
- March) indicating: 
+ March) indicating:
   1. the garbage collection algorithms investigated. 
   2. the garbage collection algorithm chosen with reasoning. 
   3. proposed data structures. 
   4. envisaged user interface. 
+
 2. Working code (due 9th April) to include: 
   1. user-interface, 
   2. object (fish) allocation functionality 
   3. object referencing functionality 
   4. garbage collection code 
   4. heap compaction code 
-  5. current representation of data structures 
+  5. current representation of data structures
+ 
 3. Implementation Report 
   1. the garbage collection algorithms investigated. 
   2. the garbage collection algorithm chosen with reasoning. 
   3. data structures. 
   4. user interface. 
-  5. statement of authorship 
+  5. statement of authorship
+ 
 Note: This is an individual assignment. All the work done as part of this 
 assignment must be done by you personally.
