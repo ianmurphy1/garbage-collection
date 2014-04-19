@@ -1,13 +1,8 @@
 package gc;
 
 
-import fish.BlueFish;
-import fish.Fish;
-import fish.RedFish;
-import fish.YellowFish;
-import tree.Node;
-import tree.Order;
-import tree.Tree;
+import fish.*;
+import tree.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,5 +42,45 @@ public class GarbageCollection {
         liveSet.addAll(redTree.build(Order.PRE_ORDER));
         liveSet.addAll(blueTree.build(Order.PRE_ORDER));
         liveSet.addAll(yellowTree.build(Order.PRE_ORDER));
+    }
+
+    public void copy() {
+        buildLiveSet();
+        int i = 0;
+        for (Node<Fish> node : liveSet) {
+            fromSpace[i] = node.getData();
+            i++;
+        }
+        toSpace = fromSpace;
+        fromSpace = new Fish[MEMORY_SIZE];
+    }
+
+    public boolean addRef(Fish parent, Fish ref) {
+        if (parent instanceof RedFish) {
+            if (ref instanceof RedFish) {
+                rFish.setMyFriend((RedFish) ref);
+                return true;
+            } else if (ref instanceof BlueFish) {
+                rFish.setMyLunch( (BlueFish) ref);
+                return true;
+            }else if (ref instanceof YellowFish) {
+                rFish.setMySnack( (YellowFish) ref);
+                return true;
+            }
+        } else if (parent instanceof BlueFish) {
+           if (ref instanceof BlueFish) {
+               bFish.setMyFriend( (BlueFish) ref);
+               return true;
+           } else if (ref instanceof YellowFish) {
+               bFish.setMyLunch( (YellowFish) ref);
+               return true;
+           }
+        } else if (parent instanceof YellowFish) {
+            if (ref instanceof YellowFish) {
+                yFish.setMyFriend( (YellowFish) ref);
+                return true;
+            }
+        }
+        return false;
     }
 }

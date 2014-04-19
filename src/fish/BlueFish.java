@@ -7,4 +7,20 @@ package fish;
 public class BlueFish extends Fish {
     BlueFish myFriend;
     YellowFish myLunch;
+
+    public BlueFish getMyFriend() {
+        return myFriend;
+    }
+
+    public void setMyFriend(BlueFish myFriend) {
+        this.myFriend = myFriend;
+    }
+
+    public YellowFish getMyLunch() {
+        return myLunch;
+    }
+
+    public void setMyLunch(YellowFish myLunch) {
+        this.myLunch = myLunch;
+    }
 }

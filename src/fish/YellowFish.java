@@ -6,4 +6,12 @@ package fish;
  */
 public class YellowFish extends Fish {
     YellowFish myFriend;
+
+    public YellowFish getMyFriend() {
+        return myFriend;
+    }
+
+    public void setMyFriend(YellowFish myFriend) {
+        this.myFriend = myFriend;
+    }
 }
