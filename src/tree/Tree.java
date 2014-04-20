@@ -61,9 +61,8 @@ public class Tree<T> {
             returnNode = currentNode;
         else if (currentNode.hasChildren()) {
             i = 0;
-            while(returnNode == null && i < currentNode.getNumberOfChildren()) {
+            while(returnNode == null && i < currentNode.getNumberOfChildren())
                 returnNode = deepFind(currentNode.getChildAt(i), nodeToFind);
-            }
         }
         return returnNode;
     }
