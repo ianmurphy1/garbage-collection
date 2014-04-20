@@ -57,37 +57,38 @@ public class GarbageCollection {
         fromSpace = new Fish[MEMORY_SIZE];
     }
 
-    public boolean addRef(Fish parent, Fish ref) {
-        Node<Fish> childNode = new Node<Fish>(ref);
-        Node<Fish> parentNode = new Node<Fish>(parent);
-
+    public boolean addRef(Node<Fish> parentNode, Node<Fish> childNode) {
+        if (childNode.hasChildren()) removeChild(childNode, parentNode);
         addChild(parentNode, childNode);
+
+        Fish parent = parentNode.getData();
+        Fish child = childNode.getData();
 
         if (parent instanceof RedFish) {
             RedFish redFish = (RedFish) parent;
-            if (ref instanceof RedFish) {
-                redFish.setMyFriend((RedFish) ref);
+            if (child instanceof RedFish) {
+                redFish.setMyFriend((RedFish) child);
                 return true;
-            } else if (ref instanceof BlueFish) {
-                redFish.setMyLunch( (BlueFish) ref);
+            } else if (child instanceof BlueFish) {
+                redFish.setMyLunch( (BlueFish) child);
                 return true;
-            }else if (ref instanceof YellowFish) {
-                redFish.setMySnack( (YellowFish) ref);
+            }else if (child instanceof YellowFish) {
+                redFish.setMySnack( (YellowFish) child);
                 return true;
             }
         } else if (parent instanceof BlueFish) {
             BlueFish blueFish = (BlueFish) parent;
-           if (ref instanceof BlueFish) {
-               blueFish.setMyFriend( (BlueFish) ref);
+           if (child instanceof BlueFish) {
+               blueFish.setMyFriend( (BlueFish) child);
                return true;
-           } else if (ref instanceof YellowFish) {
-               blueFish.setMyLunch( (YellowFish) ref);
+           } else if (child instanceof YellowFish) {
+               blueFish.setMyLunch( (YellowFish) child);
                return true;
            }
         } else if (parent instanceof YellowFish) {
             YellowFish yellowFish = (YellowFish) parent;
-            if (ref instanceof YellowFish) {
-                yellowFish.setMyFriend( (YellowFish) ref);
+            if (child instanceof YellowFish) {
+                yellowFish.setMyFriend( (YellowFish) child);
                 return true;
             }
         }
@@ -100,13 +101,12 @@ public class GarbageCollection {
 
         Node<Fish> newNode = null;
 
-        if (type == FishType.RED) {
+        if (type == FishType.RED)
             newNode = new Node<Fish>(new RedFish());
-        } else if (type == FishType.BLUE) {
+        else if (type == FishType.BLUE)
             newNode = new Node<Fish>(new BlueFish());
-        } else if (type == FishType.YELLOW) {
+        else if (type == FishType.YELLOW)
             newNode = new Node<Fish>(new YellowFish());
-        }
 
         addToToSpace(newNode.getData());
 
@@ -122,8 +122,19 @@ public class GarbageCollection {
         }
     }
 
-    public void addChild(Node<Fish> parent, Node<Fish> child) {
+    private void addChild(Node<Fish> parent, Node<Fish> child) {
         parent.addChild(child);
+    }
+
+    private void removeChild(Node<Fish> parent, Node<Fish> child) {
+        int i = 0;
+        for (Node<Fish> pChild : parent.getChildren()) {
+            if (pChild.equals(child)) {
+                parent.removeChildAt(i);
+                break;
+            }
+            i++;
+        }
     }
 
     private boolean isFull() {
