@@ -46,8 +46,6 @@ public class GarbageCollection {
         liveSet.addAll(yellowTree.build(Order.PRE_ORDER));
     }
 
-
-
     public void copy() {
         buildLiveSet();
         int i = 0;
@@ -130,7 +128,7 @@ public class GarbageCollection {
 
     private boolean isFull() {
         for (int i = 0; i < toSpace.length; i++)
-            if (toSpace[i] != null) return false;
+            if (toSpace[i] == null) return false;
 
         return true;
     }
