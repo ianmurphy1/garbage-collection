@@ -28,14 +28,38 @@ public class GarbageCollection {
     private BlueFish bFish;
     private YellowFish yFish;
 
+    private Node<Fish> redRoot;
+    private Node<Fish> blueRoot;
+    private Node<Fish> yellowRoot;
+
+    public Tree<Fish> getYellowTree() {
+        return yellowTree;
+    }
+
+    public Tree<Fish> getBlueTree() {
+        return blueTree;
+    }
+
+    public Tree<Fish> getRedTree() {
+        return redTree;
+    }
+
+    public Fish[] getFromSpace() {
+        return fromSpace;
+    }
+
     public GarbageCollection() {
-        this.bFish = new BlueFish();
         this.rFish = new RedFish();
+        this.bFish = new BlueFish();
         this.yFish = new YellowFish();
 
-        redTree.setRoot(new Node<Fish>(rFish));
-        blueTree.setRoot(new Node<Fish>(bFish));
-        yellowTree.setRoot(new Node<Fish>(yFish));
+        this.redRoot = new Node<Fish>(rFish);
+        this.blueRoot = new Node<Fish>(bFish);
+        this.yellowRoot = new Node<Fish>(yFish);
+
+        redTree.setRoot(redRoot);
+        blueTree.setRoot(blueRoot);
+        yellowTree.setRoot(yellowRoot);
         buildLiveSet();
     }
 
@@ -50,16 +74,27 @@ public class GarbageCollection {
         buildLiveSet();
         int i = 0;
         for (Node<Fish> node : liveSet) {
-            fromSpace[i] = node.getData();
+            toSpace[i] = node.getData();
             i++;
         }
-        toSpace = fromSpace;
-        fromSpace = new Fish[MEMORY_SIZE];
+        fromSpace = toSpace;
+        toSpace = new Fish[MEMORY_SIZE];
     }
 
     public boolean addRef(Node<Fish> parentNode, Node<Fish> childNode) {
-        if (childNode.hasChildren()) removeChild(childNode, parentNode);
-        addChild(parentNode, childNode);
+        if (childNode.hasChildren() && (!redTree.getRoot().equals(childNode)
+                                    ||  !blueTree.getRoot().equals(childNode)
+                                    ||  !yellowTree.getRoot().equals(childNode)))
+            removeChild(childNode, parentNode);
+
+        /**
+         * Keep instance variables as root of trees
+         */
+        if (redTree.getRoot().equals(childNode)
+                || blueTree.getRoot().equals(childNode)
+                || yellowTree.getRoot().equals(childNode))
+            addChild(childNode, parentNode);
+        else addChild(parentNode, childNode);
 
         Fish parent = parentNode.getData();
         Fish child = childNode.getData();
@@ -108,15 +143,15 @@ public class GarbageCollection {
         else if (type == FishType.YELLOW)
             newNode = new Node<Fish>(new YellowFish());
 
-        addToToSpace(newNode.getData());
+        addToFromSpace(newNode.getData());
 
         return newNode;
     }
 
-    private void addToToSpace(Fish data) {
+    private void addToFromSpace(Fish data) {
         for (int i = 0; i < toSpace.length; i++) {
-            if (toSpace[i] == null) {
-                toSpace[i] = data;
+            if (fromSpace[i] == null) {
+                fromSpace[i] = data;
                 break;
             }
         }
@@ -138,8 +173,8 @@ public class GarbageCollection {
     }
 
     private boolean isFull() {
-        for (int i = 0; i < toSpace.length; i++)
-            if (toSpace[i] == null) return false;
+        for (int i = 0; i < fromSpace.length; i++)
+            if (fromSpace[i] == null) return false;
 
         return true;
     }
