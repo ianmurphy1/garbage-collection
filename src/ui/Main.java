@@ -9,6 +9,12 @@ import javafx.stage.Stage;
  *         Date: 19/04/2014
  */
 public class Main extends Application{
+    GarbageCollection gc;
+
+    public Main() {
+        gc = new GarbageCollection();
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
     }
