@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.GCController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.GCController">
     <children><Pane layoutX="43.0" layoutY="14.0" prefHeight="316.0" prefWidth="515.0" style="-fx-border-color: black; -fx-background-color: skyblue;">
         <children><ListView layoutX="14.0" layoutY="99.0" prefHeight="69.0" prefWidth="106.0" style="-fx-border-color: black;" /><Text layoutX="19.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instance Variables" />
         </children></Pane><Button layoutX="227.0" layoutY="352.0" mnemonicParsing="false" text="Start Garbage Collection" />

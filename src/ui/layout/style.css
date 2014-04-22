@@ -1,0 +1,5 @@
+.list-cell {
+    -fx-cell-size: 6px;
+    -fx-padding: 0px;
+}
+

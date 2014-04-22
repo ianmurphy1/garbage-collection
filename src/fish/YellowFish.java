@@ -7,6 +7,11 @@ package fish;
 public class YellowFish extends Fish {
     YellowFish myFriend;
 
+    public YellowFish() {
+        this.type = FishType.BLUE;
+        this.setImage();
+    }
+
     public YellowFish getMyFriend() {
         return myFriend;
     }

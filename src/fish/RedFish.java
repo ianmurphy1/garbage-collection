@@ -9,6 +9,11 @@ public class RedFish extends Fish {
     BlueFish myLunch;
     YellowFish mySnack;
 
+    public RedFish() {
+        this.type = FishType.RED;
+        this.setImage();
+    }
+
     public RedFish getMyFriend() {
         return myFriend;
     }
