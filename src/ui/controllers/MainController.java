@@ -28,8 +28,8 @@ public class MainController implements Initializable {
         tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
             @Override
             public void changed(ObservableValue<? extends Tab> observableValue, Tab tab, Tab tab2) {
-                if(tab == memTab) drawFish(memTab);
-                if(tab == GCTab) drawFish(GCTab);
+                if(tab2 == refTab) drawFish(refTab);
+                if(tab2 == GCTab) drawFish(GCTab);
             }
         });
         System.out.println("Main");
@@ -43,7 +43,7 @@ public class MainController implements Initializable {
 
     @FXML
     public void drawFish(Tab tab) {
-        if (tab == memTab) {
+        if (tab == refTab) {
             app.getRefc().changeMode(RefMode.MOVE);
             app.getRefc().drawFish();
         } else if (tab == GCTab) {
