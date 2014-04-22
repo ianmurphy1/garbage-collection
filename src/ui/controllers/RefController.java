@@ -34,6 +34,8 @@ public class RefController implements Initializable {
     private ChoiceBox<String> modeCombo = new ChoiceBox<String>();
     @FXML
     private List<FishView> fishImages = new ArrayList<>(50);
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         modeCombo.getItems().setAll("Move", "Link", "Unlink");
@@ -109,5 +111,9 @@ public class RefController implements Initializable {
                 refPane.getChildren().add(jim);
             }
         }
+    }
+
+    public List<FishView> getFishes() {
+        return fishImages;
     }
 }
