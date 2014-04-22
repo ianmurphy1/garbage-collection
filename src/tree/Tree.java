@@ -22,7 +22,7 @@ public class Tree<T> {
         this.root = root;
     }
 
-    public int getNumberOfNode() {
+    public int getNumberOfNodes() {
         int nmrNodes = 0;
 
         if (root != null)

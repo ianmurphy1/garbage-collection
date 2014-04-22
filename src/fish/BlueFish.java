@@ -9,7 +9,7 @@ public class BlueFish extends Fish {
     YellowFish myLunch;
 
     public BlueFish() {
-        this.type = FishType.YELLOW;
+        this.type = FishType.BLUE;
         this.setImage();
     }
 

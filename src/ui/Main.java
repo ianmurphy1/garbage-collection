@@ -22,9 +22,30 @@ public class Main extends Application{
     MemoryController memc;
     RefController refc;
     GCController gcCon;
+    Scene scene;
+
+    public Scene getScene() {
+        return scene;
+    }
 
     public void setGc() {
         gc = new GarbageCollection();
+    }
+
+    public MainController getMc() {
+        return mc;
+    }
+
+    public MemoryController getMemc() {
+        return memc;
+    }
+
+    public RefController getRefc() {
+        return refc;
+    }
+
+    public GCController getGcCon() {
+        return gcCon;
     }
 
     public static void main(String[] args) {
@@ -57,7 +78,7 @@ public class Main extends Application{
         //mainController.setApp(this);
 
         //customized css stylesheet
-        Scene scene = new Scene(root, 600, 400);
+        scene = new Scene(root, 700, 450);
         String stylesheet = getClass().getResource("layout/style.css").toExternalForm();
         scene.getStylesheets().add(stylesheet);
         primaryStage.setTitle("Hello World");

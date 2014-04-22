@@ -16,8 +16,8 @@ import java.util.Set;
 public class GarbageCollection {
     private final int MEMORY_SIZE = 50;
 
-    private Fish[] toSpace = new Fish[MEMORY_SIZE];
-    private Fish[] fromSpace = new Fish[MEMORY_SIZE];
+    private Node<Fish>[] toSpace = new Node[MEMORY_SIZE];
+    private Node<Fish>[] fromSpace = new Node[MEMORY_SIZE];
 
     private Tree<Fish> redTree = new Tree<Fish>();
     private Tree<Fish> blueTree = new Tree<Fish>();
@@ -44,7 +44,7 @@ public class GarbageCollection {
         return redTree;
     }
 
-    public Fish[] getFromSpace() {
+    public Node<Fish>[] getFromSpace() {
         return fromSpace;
     }
 
@@ -74,11 +74,11 @@ public class GarbageCollection {
         buildLiveSet();
         int i = 0;
         for (Node<Fish> node : liveSet) {
-            toSpace[i] = node.getData();
+            toSpace[i] = node;
             i++;
         }
         fromSpace = toSpace;
-        toSpace = new Fish[MEMORY_SIZE];
+        toSpace = new Node[MEMORY_SIZE];
     }
 
     public boolean addRef(Node<Fish> parentNode, Node<Fish> childNode) {
@@ -143,12 +143,12 @@ public class GarbageCollection {
         else if (type == FishType.YELLOW)
             newNode = new Node<Fish>(new YellowFish());
 
-        addToFromSpace(newNode.getData());
+        addToFromSpace(newNode);
 
         return newNode;
     }
 
-    private void addToFromSpace(Fish data) {
+    private void addToFromSpace(Node<Fish> data) {
         for (int i = 0; i < toSpace.length; i++) {
             if (fromSpace[i] == null) {
                 fromSpace[i] = data;

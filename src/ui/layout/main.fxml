@@ -3,19 +3,19 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.MainController">
+<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="422.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.MainController">
   <tabs>
-    <Tab text="Create Fish">
+    <Tab fx:id="memTab" text="Create Fish">
       <content>
         <fx:include fx:id="createtab" source="memtab.fxml" />
       </content>
     </Tab>
-    <Tab text="Assign Fish">
+    <Tab fx:id="refTab"  text="Assign Fish">
       <content>
         <fx:include fx:id="reftab" source="reftab.fxml" />
       </content>
     </Tab>
-      <Tab text="Garbage Collect">
+      <Tab fx:id="GCTab" text="Garbage Collect">
           <content>
               <fx:include fx:id="gctab" source="gctab.fxml" />
           </content>

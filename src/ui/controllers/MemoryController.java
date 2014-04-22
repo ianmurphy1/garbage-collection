@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.controlsfx.dialog.Dialogs;
+import tree.Node;
 import ui.Main;
 
 import java.net.URL;
@@ -38,13 +39,9 @@ public class MemoryController implements Initializable {
         Button btn = (Button) event.getSource();
         String id = btn.getId().toUpperCase();
         try {
-            Dialogs.create()
-                    .title("Memory")
-                    .masthead("Out of Memory!")
-                    .message("Fish Created")
-                    .showConfirm();
             app.getGC().createFish(FishType.valueOf(id));
             objects.setItems(convertList(app.getGC().getFromSpace()));
+            memory.setItems(convertList(app.getGC().getFromSpace()));
         } catch (IllegalStateException e) {
 //            e.printStackTrace();
             System.out.println();
@@ -56,13 +53,13 @@ public class MemoryController implements Initializable {
         }
     }
 
-    private ObservableList<Rectangle> convertList(Fish[] fromSpace) {
+    private ObservableList<Rectangle> convertList(Node<Fish>[] fromSpace) {
         List<Rectangle> rects = new ArrayList<>();
         double width = objects.getWidth();
         Rectangle r = null;
-        for (Fish fish : fromSpace) {
-            if (fish == null) break;
-            switch (fish.getType()) {
+        for (Node<Fish> node : fromSpace) {
+            if (node == null) break;
+            switch (node.getData().getType()) {
                 case RED :
                     r = new Rectangle(width, 5, Color.RED);
                     break;
