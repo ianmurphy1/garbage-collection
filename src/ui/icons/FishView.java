@@ -1,4 +1,4 @@
-package ui;
+package ui.icons;
 
 import fish.Fish;
 import javafx.event.EventHandler;

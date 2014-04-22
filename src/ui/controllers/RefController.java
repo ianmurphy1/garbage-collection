@@ -6,17 +6,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import tree.Node;
-import ui.FishView;
+import ui.icons.FishView;
 import ui.Main;
 
-import java.math.MathContext;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 /**
