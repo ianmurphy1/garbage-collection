@@ -85,8 +85,8 @@ public class FishView extends ImageView {
                 }
                 for (Link l : trgLinks) {
                     p = getLocation(fv);
-                    l.setStartX(p.getX());
-                    l.setStartY(p.getY());
+                    l.setEndX(p.getX());
+                    l.setEndY(p.getY());
                 }
                 mouseEvent.consume();
             }
@@ -218,8 +218,6 @@ public class FishView extends ImageView {
     }
 
     private Point2D getLocation(FishView fv) {
-        int offset = (fv instanceof FieldView) ? 15 : 28;
-
         double x = ((fv.getBoundsInParent().getMinX() + fv.getBoundsInParent().getMaxX()) / 2);
         double y = ((fv.getBoundsInParent().getMinY() + fv.getBoundsInParent().getMaxY()) / 2);
 
