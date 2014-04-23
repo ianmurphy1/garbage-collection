@@ -1,10 +1,12 @@
 package ui.icons;
 
+import com.sun.javafx.css.converters.CursorConverter;
 import fish.Fish;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
 import tree.Node;
 import ui.Main;
@@ -22,10 +24,24 @@ public class FishView extends ImageView {
     protected List<Link> srcLinks = new ArrayList<>();
     protected List<Link> trgLinks = new ArrayList<>();
 
+    private class Delta {
+        double x, y;
+    }
+
     public FishView(Node<Fish> fish, Main app) {
         this.fish = fish;
         this.app = app;
         setImage(fish.getData().getImage());
+        setSize();
+        setMoveMode();
+    }
+
+    public FishView(Node<Fish> fish, Main app, double x, double y) {
+        this.fish = fish;
+        this.app = app;
+        this.setImage(fish.getData().getImage());
+        this.setX(x);
+        this.setY(y);
         setSize();
     }
 
@@ -43,15 +59,56 @@ public class FishView extends ImageView {
     }
 
     public void setMoveMode() {
+        clearEventHadler();
+        final Delta dDelta = new Delta();
+        final FishView fv = this;
+
         this.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-
+                dDelta.x = fv.getLayoutX() - mouseEvent.getSceneX();
+                dDelta.y = fv.getLayoutY() - mouseEvent.getSceneY();
+                fv.setCursor(Cursor.CLOSED_HAND);
+                mouseEvent.consume();
+            }
+        });
+        this.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                fv.setCursor(Cursor.HAND);
+                Point2D p;
+                for (Link l : srcLinks) {
+                    p = getLocation(fv);
+                    l.setStartX(p.getX());
+                    l.setStartY(p.getY());
+                }
+                for (Link l : trgLinks) {
+                    p = getLocation(fv);
+                    l.setStartX(p.getX());
+                    l.setStartY(p.getY());
+                }
+                mouseEvent.consume();
+            }
+        });
+        this.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                fv.setLayoutX(mouseEvent.getSceneX() + dDelta.x);
+                fv.setLayoutY(mouseEvent.getSceneY() + dDelta.y);
+                mouseEvent.consume();
+            }
+        });
+        this.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                fv.setCursor(Cursor.HAND);
+                mouseEvent.consume();
             }
         });
     }
 
     public void setUnlinkMode() {
+        clearEventHadler();
         this.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -61,10 +118,59 @@ public class FishView extends ImageView {
     }
 
     public void setLinkMode() {
-        this.setOnMousePressed(new EventHandler<MouseEvent>() {
+        clearEventHadler();
+        final FishView fv = this;
+        this.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                fv.setCursor(Cursor.CROSSHAIR);
+                mouseEvent.consume();
+            }
+        });
+        this.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Dragboard db = fv.startDragAndDrop(TransferMode.LINK);
+                ClipboardContent c = new ClipboardContent();
+                c.putString("");
+                db.setContent(c);
 
+                fv.setScaleX(1.1);
+                fv.setScaleY(1.1);
+
+                mouseEvent.consume();
+            }
+        });
+        this.setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                dragEvent.acceptTransferModes(TransferMode.LINK);
+                fv.setScaleX(1.1);
+                fv.setScaleY(1.1);
+                dragEvent.consume();
+            }
+        });
+        this.setOnDragExited(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                if (fv != dragEvent.getGestureSource()) {
+                    fv.setScaleX(1);
+                    fv.setScaleY(1);
+                }
+            }
+        });
+        this.setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent dragEvent) {
+                FishView src = (FishView) dragEvent.getGestureSource();
+                FishView trg = (FishView) dragEvent.getGestureTarget();
+                trg.setScaleX(1);
+                trg.setScaleX(1);
+                if (!(src instanceof FishView)) {
+                    src.setScaleX(1);
+                    src.setScaleY(1);
+                }
+                createLink(src, trg);
             }
         });
     }
@@ -107,5 +213,15 @@ public class FishView extends ImageView {
     public void removeLink(Link l) {
         srcLinks.remove(l);
         trgLinks.remove(l);
+    }
+
+    private void clearEventHadler() {
+        this.setOnDragOver(null);
+        this.setOnDragDetected(null);
+        this.setOnMousePressed(null);
+        this.setOnMouseReleased(null);
+        this.setOnMouseEntered(null);
+        this.setOnMouseDragged(null);
+        this.setCursor(Cursor.DEFAULT);
     }
 }

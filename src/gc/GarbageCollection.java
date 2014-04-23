@@ -32,20 +32,24 @@ public class GarbageCollection {
     private Node<Fish> blueRoot;
     private Node<Fish> yellowRoot;
 
-    public Tree<Fish> getYellowTree() {
-        return yellowTree;
+    public Node<Fish> getRedRoot() {
+        return redRoot;
     }
 
-    public Tree<Fish> getBlueTree() {
-        return blueTree;
+    public Node<Fish> getBlueRoot() {
+        return blueRoot;
     }
 
-    public Tree<Fish> getRedTree() {
-        return redTree;
+    public Node<Fish> getYellowRoot() {
+        return yellowRoot;
     }
 
     public Node<Fish>[] getFromSpace() {
         return fromSpace;
+    }
+
+    public Set<Node<Fish>> getLiveSet() {
+        return liveSet;
     }
 
     public GarbageCollection() {
@@ -74,7 +78,8 @@ public class GarbageCollection {
         buildLiveSet();
         int i = 0;
         for (Node<Fish> node : liveSet) {
-            toSpace[i] = node;
+            if (!node.equals(redRoot) && !node.equals(blueRoot) && !node.equals(yellowRoot))
+                toSpace[i] = node;
             i++;
         }
         fromSpace = toSpace;
