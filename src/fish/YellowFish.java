@@ -19,4 +19,9 @@ public class YellowFish extends Fish {
     public void setMyFriend(YellowFish myFriend) {
         this.myFriend = myFriend;
     }
+
+    @Override
+    public boolean linkable(Fish fish) {
+        return (fish instanceof YellowFish);
+    }
 }

@@ -29,4 +29,6 @@ public abstract class Fish {
     public Image getImage() {
         return image;
     }
+
+    public abstract boolean linkable(Fish fish);
 }

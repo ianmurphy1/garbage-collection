@@ -101,7 +101,7 @@ public class RefController implements Initializable {
                 }
             }
             if (!drawn) {
-                FishView jim = new FishView(node);
+                FishView jim = new FishView(node, app);
                 jim.setY(Math.random() * refPane.getHeight());
                 jim.setX(Math.random() * refPane.getWidth());
                 fishImages.add(jim);

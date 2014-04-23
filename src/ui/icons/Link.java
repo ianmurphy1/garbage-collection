@@ -1,9 +1,11 @@
 package ui.icons;
 
+import fish.Fish;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
+import tree.Node;
 import ui.Main;
 
 /**
@@ -54,5 +56,15 @@ public class Link extends Line {
             return true;
         }
         return false;
+    }
+
+    public boolean linkedToType(Node<Fish> trgNode) {
+        return trg.getFish().getData().getClass() == trgNode.getData().getClass();
+    }
+
+    public void delete() {
+        app.getGC().removeRef(src.getFish(), trg.getFish());
+        src.removeLink(this);
+        trg.removeLink(this);
     }
 }

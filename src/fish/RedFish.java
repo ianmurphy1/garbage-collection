@@ -37,4 +37,9 @@ public class RedFish extends Fish {
     public void setMySnack(YellowFish mySnack) {
         this.mySnack = mySnack;
     }
+
+    @Override
+    public boolean linkable(Fish fish) {
+        return (fish instanceof RedFish) || (fish instanceof BlueFish) || (fish instanceof YellowFish);
+    }
 }

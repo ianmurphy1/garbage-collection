@@ -130,6 +130,41 @@ public class GarbageCollection {
         return false;
     }
 
+    public boolean removeRef(Node<Fish> parentNode, Node<Fish> childNode) {
+        Fish parent = parentNode.getData();
+        Fish child = childNode.getData();
+        removeChild(parentNode, childNode);
+        if (parent instanceof RedFish) {
+            RedFish redFish = (RedFish) parent;
+            if (child instanceof RedFish) {
+                redFish.setMyFriend(null);
+                return true;
+            } else if (child instanceof BlueFish) {
+                redFish.setMyLunch(null);
+                return true;
+            }else if (child instanceof YellowFish) {
+                redFish.setMySnack(null);
+                return true;
+            }
+        } else if (parent instanceof BlueFish) {
+            BlueFish blueFish = (BlueFish) parent;
+            if (child instanceof BlueFish) {
+                blueFish.setMyFriend(null);
+                return true;
+            } else if (child instanceof YellowFish) {
+                blueFish.setMyLunch(null);
+                return true;
+            }
+        } else if (parent instanceof YellowFish) {
+            YellowFish yellowFish = (YellowFish) parent;
+            if (child instanceof YellowFish) {
+                yellowFish.setMyFriend(null);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Node<Fish> createFish(FishType type) {
 
         if (isFull()) throw new IllegalStateException();
