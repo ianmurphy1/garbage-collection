@@ -77,14 +77,12 @@ public class FishView extends ImageView {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 fv.setCursor(Cursor.HAND);
-                Point2D p;
+                Point2D p = getLocation(fv);
                 for (Link l : srcLinks) {
-                    p = getLocation(fv);
                     l.setStartX(p.getX());
                     l.setStartY(p.getY());
                 }
                 for (Link l : trgLinks) {
-                    p = getLocation(fv);
                     l.setEndX(p.getX());
                     l.setEndY(p.getY());
                 }
@@ -106,6 +104,7 @@ public class FishView extends ImageView {
                 mouseEvent.consume();
             }
         });
+
     }
 
     public void setUnlinkMode() {
@@ -218,8 +217,8 @@ public class FishView extends ImageView {
     }
 
     private Point2D getLocation(FishView fv) {
-        double x = ((fv.getBoundsInParent().getMinX() + fv.getBoundsInParent().getMaxX()) / 2);
-        double y = ((fv.getBoundsInParent().getMinY() + fv.getBoundsInParent().getMaxY()) / 2);
+        double x = ((fv.getBoundsInLocal().getMinX() + fv.getBoundsInLocal().getMaxX()) / 2);
+        double y = ((fv.getBoundsInLocal().getMinY() + fv.getBoundsInLocal().getMaxY()) / 2);
 
         return fv.localToParent(x, y);
     }
