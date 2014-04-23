@@ -4,6 +4,7 @@ import fish.Fish;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import tree.Node;
 import ui.Main;
@@ -31,21 +32,6 @@ public class Link extends Line {
 
         this.setStrokeWidth(STROKE_WIDTH);
 
-        this.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                Link l = (Link) mouseEvent.getTarget();
-                l.setStrokeWidth(HIGHLIGHTED_STROKE_WIDTH);
-            }
-        });
-
-        this.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                Link l = (Link) mouseEvent.getTarget();
-                l.setStrokeWidth(STROKE_WIDTH);
-            }
-        });
         makeLink(src, trg);
     }
 
@@ -67,4 +53,40 @@ public class Link extends Line {
         src.removeLink(this);
         trg.removeLink(this);
     }
+
+    public void setLinkMode() {
+        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Link l = (Link) mouseEvent.getTarget();
+                Pane p = (Pane) l.getParent();
+                p.getChildren().remove(l);
+                src.removeLink(l);
+                trg.removeLink(l);
+            }
+        });
+
+        this.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Link l = (Link) mouseEvent.getTarget();
+                l.setStrokeWidth(HIGHLIGHTED_STROKE_WIDTH);
+            }
+        });
+
+        this.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Link l = (Link) mouseEvent.getTarget();
+                l.setStrokeWidth(STROKE_WIDTH);
+            }
+        });
+    }
+
+    public void unsetLinkMode() {
+        this.setOnMouseClicked(null);
+        this.setOnMouseEntered(null);
+        this.setOnMouseExited(null);
+    }
+
 }

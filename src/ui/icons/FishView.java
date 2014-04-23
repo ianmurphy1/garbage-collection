@@ -12,6 +12,7 @@ import org.controlsfx.dialog.Dialogs;
 import tree.Node;
 import ui.Main;
 
+import java.lang.instrument.IllegalClassFormatException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class FishView extends ImageView {
         clearEventHadler();
         final Delta dDelta = new Delta();
         final FishView fv = this;
-
+        final double originalScale = fv.getScaleX();
         this.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -101,39 +102,48 @@ public class FishView extends ImageView {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 fv.setCursor(Cursor.HAND);
-                mouseEvent.consume();
-            }
-        });
-
-    }
-
-    public void setUnlinkMode() {
-        clearEventHadler();
-        this.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-
-            }
-        });
-    }
-
-    public void setLinkMode() {
-        clearEventHadler();
-        final FishView fv = this;
-        this.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                fv.setCursor(Cursor.CROSSHAIR);
-                fv.setScaleX(1.1);
-                fv.setScaleY(1.1);
+                fv.setScaleX(originalScale * 1.1);
+                fv.setScaleY(originalScale * 1.1);
                 mouseEvent.consume();
             }
         });
         this.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                fv.setScaleX(1);
-                fv.setScaleY(1);
+                fv.setCursor(Cursor.HAND);
+                fv.setScaleX(originalScale);
+                fv.setScaleY(originalScale);
+                mouseEvent.consume();
+            }
+        });
+    }
+
+    public void setUnlinkMode() {
+        clearEventHadler();
+        for (Link l : trgLinks) {
+            l.setLinkMode();
+        }
+    }
+
+    public void setLinkMode() {
+        clearEventHadler();
+
+        final FishView fv = this;
+        final double originalScale = fv.getScaleX();
+        this.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                fv.setCursor(Cursor.CROSSHAIR);
+                fv.setScaleX(originalScale * 1.1);
+                fv.setScaleY(originalScale * 1.1);
+                mouseEvent.consume();
+            }
+        });
+        this.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                fv.setScaleX(originalScale);
+                fv.setScaleY(originalScale);
                 mouseEvent.consume();
             }
         });
@@ -145,8 +155,8 @@ public class FishView extends ImageView {
                 c.putString("");
                 db.setContent(c);
 
-                fv.setScaleX(1.1);
-                fv.setScaleY(1.1);
+                fv.setScaleX(originalScale * 1.1);
+                fv.setScaleY(originalScale * 1.1);
 
                 mouseEvent.consume();
             }
@@ -155,8 +165,9 @@ public class FishView extends ImageView {
             @Override
             public void handle(DragEvent dragEvent) {
                 dragEvent.acceptTransferModes(TransferMode.LINK);
-                fv.setScaleX(1.1);
-                fv.setScaleY(1.1);
+                double originalScale = fv.getScaleX();
+                fv.setScaleX(originalScale);
+                fv.setScaleY(originalScale);
                 dragEvent.consume();
             }
         });
@@ -164,8 +175,8 @@ public class FishView extends ImageView {
             @Override
             public void handle(DragEvent dragEvent) {
                 if (fv != dragEvent.getGestureSource()) {
-                    fv.setScaleX(1);
-                    fv.setScaleY(1);
+                    fv.setScaleX(originalScale);
+                    fv.setScaleY(originalScale);
                 }
             }
         });
@@ -183,16 +194,27 @@ public class FishView extends ImageView {
                 try {
                     createLink(src, trg);
                 } catch (UnsupportedOperationException e) {
-                    Dialogs.create().title("Error").masthead("Unsupported").message("Cannot Link these fish").showError();
+                    Dialogs.create()
+                            .title("Error")
+                            .masthead("Unsupported")
+                            .message("Cannot Link these fish\n Select Higher order Fish First")
+                            .showError();
+                } catch (IllegalClassFormatException e) {
+                    Dialogs.create().title("Error")
+                            .masthead("Unsupported")
+                            .message("Local Variable must reference a fish of the same colour")
+                            .showError();
                 }
             }
         });
     }
 
-    public void createLink(FishView src, FishView trg) throws UnsupportedOperationException {
+    public void createLink(FishView src, FishView trg) throws UnsupportedOperationException, IllegalClassFormatException {
         Node<Fish> srcNode = src.getFish();
         Node<Fish> trgNode = trg.getFish();
 
+        if (src instanceof FieldView && srcNode.getData().getClass() != trgNode.getData().getClass())
+            throw new IllegalClassFormatException();
         if (srcNode.getData().linkable(trgNode.getData())) {
             Point2D p1 = getLocation(src);
             Point2D p2 = getLocation(trg);
@@ -207,7 +229,6 @@ public class FishView extends ImageView {
                     l.delete();
                 }
             }
-
             Link ln = new Link(p1, p2, src, trg, app);
             src.srcLinks.add(ln);
             trg.trgLinks.add(ln);
@@ -228,7 +249,8 @@ public class FishView extends ImageView {
         trgLinks.remove(l);
     }
 
-    private void clearEventHadler() {
+    public void clearEventHadler() {
+        this.unsetUnlinkMode();
         this.setOnDragOver(null);
         this.setOnDragDetected(null);
         this.setOnMousePressed(null);
@@ -236,5 +258,10 @@ public class FishView extends ImageView {
         this.setOnMouseEntered(null);
         this.setOnMouseDragged(null);
         this.setCursor(Cursor.DEFAULT);
+    }
+
+    private void unsetUnlinkMode() {
+        for (Link l : trgLinks)
+            l.unsetLinkMode();
     }
 }

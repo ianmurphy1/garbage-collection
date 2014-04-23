@@ -75,11 +75,16 @@ public class RefController implements Initializable {
         System.out.println("Unlink Mode");
         for (FishView fv : fishImages)
             fv.setUnlinkMode();
+        for (FishView fv : localFish)
+            fv.setUnlinkMode();
     }
 
     private void setLinkMode() {
         System.out.println("Link Mode");
         for (FishView fv : fishImages)
+            fv.setLinkMode();
+
+        for (FishView fv : localFish)
             fv.setLinkMode();
     }
 
@@ -87,6 +92,8 @@ public class RefController implements Initializable {
         System.out.println("Move Mode");
         for (FishView fv : fishImages)
             fv.setMoveMode();
+        for (FishView fv : localFish)
+            fv.clearEventHadler();
     }
 
     public void setApp(Main app) {
@@ -160,7 +167,6 @@ public class RefController implements Initializable {
                 refPane.getChildren().add(jim);
                 i++;
             }
-            jim.setUnlinkMode();
         }
 
     }
