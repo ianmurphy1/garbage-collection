@@ -188,7 +188,6 @@ public class GarbageCollection {
             newNode = new Node<Fish>(new YellowFish());
 
         if (isFull() || findSpace(newNode) == -1) throw new IllegalStateException();
-        System.out.println("Space at: " + findSpace(newNode));
         addToFromSpace(newNode);
         addToObjects(newNode);
         return newNode;

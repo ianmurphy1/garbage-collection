@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.MemoryController">
+<AnchorPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.MemoryController">
 <children><ListView fx:id="objects" layoutX="75.0" layoutY="80.0" prefHeight="200.0" prefWidth="153.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="80.0" /><Text layoutX="119.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Objects" AnchorPane.leftAnchor="119.0" /><Text layoutX="395.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From-Space" AnchorPane.rightAnchor="141.44921875" /><Button fx:id="red" layoutX="75.1875" layoutY="314.5" mnemonicParsing="false" onMouseClicked="#createFish" text="Create Red Fish" AnchorPane.bottomAnchor="60.5" />
 <Button fx:id="blue" layoutX="235.0" layoutY="315.0" mnemonicParsing="false" onMouseClicked="#createFish" text="Create Blue Fish" AnchorPane.bottomAnchor="60.0" />
 <Button fx:id="yellow" layoutX="408.0" layoutY="315.0" mnemonicParsing="false" onMouseClicked="#createFish" text="Create Yellow Fish" AnchorPane.bottomAnchor="60.0" />
