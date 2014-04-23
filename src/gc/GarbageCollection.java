@@ -18,6 +18,7 @@ public class GarbageCollection {
 
     private Node<Fish>[] toSpace = new Node[MEMORY_SIZE];
     private Node<Fish>[] fromSpace = new Node[MEMORY_SIZE];
+    private Node<Fish>[] objects = new Node[MEMORY_SIZE];
 
     private Tree<Fish> redTree = new Tree<Fish>();
     private Tree<Fish> blueTree = new Tree<Fish>();
@@ -44,6 +45,10 @@ public class GarbageCollection {
         return yellowRoot;
     }
 
+    public Node<Fish>[] getObjects() {
+        return objects;
+    }
+    
     public Node<Fish>[] getFromSpace() {
         return fromSpace;
     }
@@ -172,7 +177,6 @@ public class GarbageCollection {
 
     public Node<Fish> createFish(FishType type) {
 
-        if (isFull()) throw new IllegalStateException();
 
         Node<Fish> newNode = null;
 
@@ -183,17 +187,46 @@ public class GarbageCollection {
         else if (type == FishType.YELLOW)
             newNode = new Node<Fish>(new YellowFish());
 
+        if (isFull() || findSpace(newNode) == -1) throw new IllegalStateException();
+        System.out.println("Space at: " + findSpace(newNode));
         addToFromSpace(newNode);
-
+        addToObjects(newNode);
         return newNode;
     }
 
-    private void addToFromSpace(Node<Fish> data) {
-        for (int i = 0; i < toSpace.length; i++) {
-            if (fromSpace[i] == null) {
-                fromSpace[i] = data;
+    private void addToObjects(Node<Fish> data) {
+        for (int i = 0; i < objects.length; i++) {
+            if (objects[i] == null) {
+                objects[i] = data;
                 break;
             }
+        }
+    }
+
+    private int findSpace(Node<Fish> f) {
+        int size = f.getData().getClass().getDeclaredFields().length;
+
+        for (int i = 0; i < fromSpace.length; i++) {
+            if (fromSpace[i] == null) {
+                int moreRequired = size - 1;
+                for (int j = i + 1; moreRequired > 0 && fromSpace[j] == null; j++) {
+                    moreRequired--;
+                }
+                if (moreRequired == 0) {
+                    System.out.println("space at: " + i);
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    private void addToFromSpace(Node<Fish> data) {
+        int size = data.getData().getClass().getDeclaredFields().length;
+        int start = findSpace(data);
+        System.out.println(start + " " + size);
+        for (int i = 0; i < size; i++) {
+            fromSpace[start + i] = data;
         }
     }
 

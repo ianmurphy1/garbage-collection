@@ -137,8 +137,8 @@ public class RefController implements Initializable {
             }
             final FieldView jim = new FieldView(node, app, 50, i * 50 + 50);
             if (!drawn) {
-                jim.setScaleX(1.5);
-                jim.setScaleY(1.5);
+                jim.setScaleX(2);
+                jim.setScaleY(2);
                 jim.setOnDragDetected(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {

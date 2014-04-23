@@ -40,7 +40,7 @@ public class MemoryController implements Initializable {
         String id = btn.getId().toUpperCase();
         try {
             app.getGC().createFish(FishType.valueOf(id));
-            objects.setItems(convertList(app.getGC().getFromSpace()));
+            objects.setItems(convertList(app.getGC().getObjects()));
             memory.setItems(convertList(app.getGC().getFromSpace()));
         } catch (IllegalStateException e) {
 //            e.printStackTrace();
@@ -56,9 +56,11 @@ public class MemoryController implements Initializable {
     private ObservableList<Rectangle> convertList(Node<Fish>[] fromSpace) {
         List<Rectangle> rects = new ArrayList<>();
         double width = objects.getWidth();
+
         Rectangle r = null;
         for (Node<Fish> node : fromSpace) {
             if (node == null) break;
+
             switch (node.getData().getType()) {
                 case RED :
                     r = new Rectangle(width, 5, Color.RED);

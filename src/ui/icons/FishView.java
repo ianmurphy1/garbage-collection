@@ -217,12 +217,13 @@ public class FishView extends ImageView {
         } else throw new UnsupportedOperationException();
     }
 
-    private Point2D getLocation(FishView src) {
+    private Point2D getLocation(FishView fv) {
+        int offset = (fv instanceof FieldView) ? 15 : 28;
 
-        double x = (src.getBoundsInLocal().getMinX() + src.getBoundsInLocal().getMaxX()) / 2;
-        double y = (src.getBoundsInLocal().getMinY() + src.getBoundsInLocal().getMaxY()) / 2;
+        double x = ((fv.getBoundsInParent().getMinX() + fv.getBoundsInParent().getMaxX()) / 2);
+        double y = ((fv.getBoundsInParent().getMinY() + fv.getBoundsInParent().getMaxY()) / 2);
 
-        return src.localToScene(x, y);
+        return fv.localToParent(x, y);
     }
 
     public void removeLink(Link l) {
