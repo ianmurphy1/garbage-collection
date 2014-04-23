@@ -8,6 +8,7 @@ import javafx.scene.Cursor;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
+import org.controlsfx.dialog.Dialogs;
 import tree.Node;
 import ui.Main;
 
@@ -124,6 +125,16 @@ public class FishView extends ImageView {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 fv.setCursor(Cursor.CROSSHAIR);
+                fv.setScaleX(1.1);
+                fv.setScaleY(1.1);
+                mouseEvent.consume();
+            }
+        });
+        this.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                fv.setScaleX(1);
+                fv.setScaleY(1);
                 mouseEvent.consume();
             }
         });
@@ -170,14 +181,18 @@ public class FishView extends ImageView {
                     src.setScaleX(1);
                     src.setScaleY(1);
                 }
-                createLink(src, trg);
+                try {
+                    createLink(src, trg);
+                } catch (UnsupportedOperationException e) {
+                    Dialogs.create().title("Error").masthead("Unsupported").message("Cannot Link these fish").showError();
+                }
             }
         });
     }
 
-    public void createLink(FishView src, FishView trg) {
+    public void createLink(FishView src, FishView trg) throws UnsupportedOperationException {
         Node<Fish> srcNode = src.getFish();
-        Node<Fish> trgNode = src.getFish();
+        Node<Fish> trgNode = trg.getFish();
 
         if (srcNode.getData().linkable(trgNode.getData())) {
             Point2D p1 = getLocation(src);
@@ -199,13 +214,13 @@ public class FishView extends ImageView {
             trg.trgLinks.add(ln);
             pane.getChildren().add(ln);
             ln.toBack();
-        }
+        } else throw new UnsupportedOperationException();
     }
 
     private Point2D getLocation(FishView src) {
-        int offset = 28;
+
         double x = (src.getBoundsInLocal().getMinX() + src.getBoundsInLocal().getMaxX()) / 2;
-        double y = ((src.getBoundsInLocal().getMinY() + src.getBoundsInLocal().getMaxY()) / 2) - offset;
+        double y = (src.getBoundsInLocal().getMinY() + src.getBoundsInLocal().getMaxY()) / 2;
 
         return src.localToScene(x, y);
     }
