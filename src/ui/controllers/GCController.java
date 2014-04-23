@@ -41,13 +41,13 @@ public class GCController implements Initializable{
             boolean drawn = false;
             if (node == null) break;
             for (FishView fv : fishImages) {
-                if (fv.hasFish(node.getData())) {
+                if (fv.hasFish(node)) {
                     drawn = true;
                     break;
                 }
             }
             if (!drawn) {
-                FishView jim = new FishView(node.getData());
+                FishView jim = new FishView(node);
                 jim.setY(Math.random() * gcPane.getHeight());
                 jim.setX(Math.random() * gcPane.getWidth());
                 fishImages.add(jim);

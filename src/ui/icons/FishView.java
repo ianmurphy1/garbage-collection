@@ -4,6 +4,7 @@ import fish.Fish;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import tree.Node;
 
 /**
  * @author Ian Murphy - 20057028
@@ -11,11 +12,11 @@ import javafx.scene.input.MouseEvent;
 public class FishView extends ImageView {
 
     private final int SIZE = 25;
-    private Fish fish;
+    private Node<Fish> fish;
 
-    public FishView(Fish fish) {
+    public FishView(Node<Fish> fish) {
         this.fish = fish;
-        setImage(fish.getImage());
+        setImage(fish.getData().getImage());
         setSize();
     }
 
@@ -24,7 +25,11 @@ public class FishView extends ImageView {
         this.setFitWidth(SIZE + 5);
     }
 
-    public boolean hasFish(Fish fish) {
+    public Node<Fish> getFish() {
+        return fish;
+    }
+
+    public boolean hasFish(Node<Fish> fish) {
         return this.fish.equals(fish);
     }
 
