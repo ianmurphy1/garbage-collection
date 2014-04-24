@@ -1,6 +1,5 @@
 package ui.icons;
 
-import com.sun.javafx.css.converters.CursorConverter;
 import fish.Fish;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;

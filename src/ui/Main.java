@@ -1,6 +1,5 @@
 package ui;
 
-import fish.FishType;
 import gc.GarbageCollection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

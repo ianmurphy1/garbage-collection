@@ -1,4 +1,5 @@
 package ui.controllers;
+
 import fish.Fish;
 import fish.FishType;
 import javafx.collections.FXCollections;
@@ -19,7 +20,10 @@ import tree.Node;
 import ui.Main;
 
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Controller for the Memory Tab of this application

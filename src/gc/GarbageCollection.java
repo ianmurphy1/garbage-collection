@@ -2,11 +2,11 @@ package gc;
 
 
 import fish.*;
-import tree.*;
+import tree.Node;
+import tree.Order;
+import tree.Tree;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,7 +16,7 @@ import java.util.Set;
  * the algorithm of the garbage collection takes place.
  *
  * @author Ian Murphy - 20057028
- *         Date: 19/04/2014
+ *         Date: 19/03/2014
  */
 public class GarbageCollection {
     private final int MEMORY_SIZE = 50; //Memory size of the project

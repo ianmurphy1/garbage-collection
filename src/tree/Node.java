@@ -9,7 +9,7 @@ import java.util.List;
  * a node may have.
  *
  * @author Ian Murphy - 20057028
- *         Date: 19/04/2014
+ *         Date: 19/03/2014
  */
 public class Node<T> {
     private T data;
