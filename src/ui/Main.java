@@ -28,8 +28,8 @@ public class Main extends Application{
         return scene;
     }
 
-    public void setGc() {
-        gc = new GarbageCollection();
+    public Main() {
+        this.gc = new GarbageCollection();
     }
 
     public MainController getMc() {
@@ -55,7 +55,7 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader mainFxmlLoader = new FXMLLoader(Main.class.getResource("layout/main.fxml"));
-        Parent root = (Parent) mainFxmlLoader.load();
+        Parent root = mainFxmlLoader.load();
         mc = (MainController) mainFxmlLoader.getNamespace().get("controller");
         mc.setApp(this);
 
@@ -68,23 +68,12 @@ public class Main extends Application{
         gcCon = (GCController) mainFxmlLoader.getNamespace().get("gctabController");
         gcCon.setApp(this);
 
-        //assignRefController = (AssignReferencesController) mainFxmlLoader.getNamespace().get("assignRefsTabController");
-        //assignRefController.setApp(this);
-
-        //garbCollController = (GarbageCollectController) mainFxmlLoader.getNamespace().get("garbageCollectTabController");
-        //garbCollController.setApp(this);
-
-       // mainController = (MainController) mainFxmlLoader.getNamespace().get("controller");
-        //mainController.setApp(this);
-
-        //customized css stylesheet
-        scene = new Scene(root, 700, 450);
+        scene = new Scene(root, 700, 500);
         String stylesheet = getClass().getResource("layout/style.css").toExternalForm();
         scene.getStylesheets().add(stylesheet);
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Garbage Collection");
         primaryStage.setScene(scene);
         primaryStage.show();
-        setGc();
     }
 
     public GarbageCollection getGC() {

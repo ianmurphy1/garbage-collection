@@ -187,9 +187,7 @@ public class GarbageCollection {
         return false;
     }
 
-    public Node<Fish> createFish(FishType type) {
-
-
+    public Node<Fish> createFish(FishType type) throws IllegalStateException, IndexOutOfBoundsException {
         Node<Fish> newNode = null;
 
         if (type == FishType.RED)
@@ -199,7 +197,9 @@ public class GarbageCollection {
         else if (type == FishType.YELLOW)
             newNode = new Node<Fish>(new YellowFish());
 
-        if (isFull() || findSpace(fromSpace, newNode) == -1) throw new IllegalStateException();
+        if (isFull()) throw new IllegalStateException();
+        if (findSpace(fromSpace, newNode) == -1) throw new IndexOutOfBoundsException();
+
         addToFromSpace(newNode);
         addToObjects(newNode);
         return newNode;
@@ -220,7 +220,7 @@ public class GarbageCollection {
         for (int i = 0; i < fishes.length; i++) {
             if (fishes[i] == null) {
                 int moreRequired = size - 1;
-                for (int j = i + 1; moreRequired > 0 && fishes[j] == null; j++) {
+                for (int j = i + 1; j < fishes.length && moreRequired > 0 && fishes[j] == null; j++) {
                     moreRequired--;
                 }
                 if (moreRequired == 0) {

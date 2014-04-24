@@ -19,9 +19,11 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
     private Main app;
 
-    public void setApp(Main app) {
-        this.app = app;
-    }
+    @FXML
+    TabPane tabPane;
+
+    @FXML
+    Tab memTab, refTab, GCTab;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -35,21 +37,19 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    TabPane tabPane;
-
-    @FXML
-    Tab memTab, refTab, GCTab;
-
-    @FXML
     public void drawFish(Tab tab) {
         if (tab == refTab) {
-            app.getRefc().changeMode(RefMode.MOVE);
+            app.getRefc().changeMode(RefMode.valueOf(app.getRefc().getModeCombo().getValue().toString().toUpperCase()));
             app.getRefc().drawFish();
         } else if (tab == GCTab) {
             app.getGcCon().drawFish();
         } else if (tab == memTab) {
             app.getMemc().drawLines();
         }
+    }
+
+    public void setApp(Main app) {
+        this.app = app;
     }
 
 

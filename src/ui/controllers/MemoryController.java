@@ -48,13 +48,17 @@ public class MemoryController implements Initializable {
             memory.setItems(convertList(app.getGC().getFromSpace()));
             drawLines();
         } catch (IllegalStateException e) {
-//            e.printStackTrace();
-            System.out.println();
             Dialogs.create()
                    .title("Memory")
                    .masthead("Out of Memory!")
                    .message("Memory is Full!")
                    .showError();
+        } catch (IndexOutOfBoundsException e) {
+            Dialogs.create()
+                    .title("Memory")
+                    .masthead("Out of Memory!")
+                    .message("Not Enough Room for this type of fish!")
+                    .showError();
         }
     }
 
@@ -112,7 +116,7 @@ public class MemoryController implements Initializable {
                     int i = objectList.indexOf(fObj);
                     Rectangle rect = objects.getItems().get(i);
                     Point2D p1 = rect.localToScene(rect.getLayoutBounds().getMaxX(), -28);
-                    Circle c1 = new Circle(p1.getX(), p1.getY(), 1);
+                    Circle c1 = new Circle(p1.getX() - 4, p1.getY(), 1);
                     mainPane.getChildren().add(c1);
 
                     i = memoryList.indexOf(f);
@@ -120,7 +124,7 @@ public class MemoryController implements Initializable {
                     Point2D p2 = rect2.localToScene(rect2.getLayoutBounds().getMinX(), -28);
                     Circle c2 = new Circle(p2.getX(), p2.getY(), 1);
                     mainPane.getChildren().add(c2);
-                    Line line = new Line(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+                    Line line = new Line(p1.getX() - 4 , p1.getY(), p2.getX(), p2.getY());
                     mainPane.getChildren().add(line);
                 }
             }

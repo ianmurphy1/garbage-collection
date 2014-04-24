@@ -31,4 +31,12 @@ public abstract class Fish {
     }
 
     public abstract boolean linkable(Fish fish);
+
+    public void setAsBlack() {
+        this.image = loadImage();
+    }
+
+    private Image loadImage() {
+        return new Image("\\images\\black" + this.type.name().toLowerCase() + ".png");
+    }
 }

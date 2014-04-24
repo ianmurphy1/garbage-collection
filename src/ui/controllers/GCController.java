@@ -11,13 +11,16 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
+import org.controlsfx.dialog.Dialogs;
 import tree.Node;
 import ui.icons.FieldView;
 import ui.icons.FishView;
 import ui.Main;
 import ui.icons.Link;
 
+import javax.swing.text.html.ImageView;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -62,6 +65,8 @@ public class GCController implements Initializable{
             @Override
             public void handle(MouseEvent mouseEvent) {
                 app.getGC().copy();
+                highlightFish();
+                Dialogs.create().title("Garbage Collection").masthead(null).message("The fish in black will be deleted").showInformation();
                 app.getMemc().getObjects().setItems(app.getMemc().convertList(app.getGC().getObjects()));
                 app.getMemc().getMemory().setItems(app.getMemc().convertList(app.getGC().getFromSpace()));
                 redraw();
@@ -105,6 +110,21 @@ public class GCController implements Initializable{
         }
         drawLinks(fishImages);
         clearHandlers(fishImages);
+    }
+
+    private void highlightFish() {
+        List<Node<Fish>> fishes = new ArrayList<>(app.getGC().getLiveSet());
+        for (FishView fv : app.getRefc().getFishes()) {
+            boolean found = false;
+            for (Node<Fish> f : fishes)
+                if (fv.hasFish(f)) found = true;
+
+            if (!found) {
+                fv.getFish().getData().setAsBlack();
+                fv.setImage(fv.getFish().getData().getImage());
+            }
+        }
+        drawFish();
     }
 
     private void drawFields() {

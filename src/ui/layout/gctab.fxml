@@ -5,9 +5,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.GCController">
-    <children><Pane fx:id="gcPane" layoutX="43.0" layoutY="14.0" prefHeight="316.0" prefWidth="515.0" style="-fx-border-color: black; -fx-background-color: skyblue;">
-        <children><Text layoutX="19.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instance Variables" />
-        </children></Pane><Button fx:id="gcButton" layoutX="227.0" layoutY="352.0" mnemonicParsing="false" text="Start Garbage Collection" />
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controllers.GCController">
+    <children><Button fx:id="gcButton" layoutX="227.0" layoutY="431.0" mnemonicParsing="false" text="Start Garbage Collection" /><Pane fx:id="gcPane" layoutX="43.0" layoutY="14.0" prefHeight="400.0" prefWidth="515.0" style="-fx-border-color: black; -fx-background-color: skyblue;">
+<children>
+<Text layoutX="14.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instance Variables" />
+</children>
+</Pane>
     </children>
 </AnchorPane>

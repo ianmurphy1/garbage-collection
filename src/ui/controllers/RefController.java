@@ -141,7 +141,7 @@ public class RefController implements Initializable {
                     break;
                 }
             }
-            final FieldView jim = new FieldView(node, app, 50, i * 50 + 50);
+            final FieldView jim = new FieldView(node, app, 50, i * 75 + 50);
             if (!drawn) {
                 jim.setScaleX(2);
                 jim.setScaleY(2);
@@ -188,9 +188,12 @@ public class RefController implements Initializable {
         }
     }
 
+    public ChoiceBox<String> getModeCombo() {
+        return modeCombo;
+    }
+
     public void removeFish() {
         Pane gcPane = app.getGcCon().getGcPane();
-
         List<FishView> gone = new ArrayList<>();
         Node<Fish>[] fishes = app.getGC().getFromSpace();
         for (FishView fv : fishImages) {
@@ -198,6 +201,7 @@ public class RefController implements Initializable {
             for (Node<Fish> node : fishes)
                 if (fv.hasFish(node)) found = true;
             if (!found) {
+
                 gone.add(fv);
                 refPane.getChildren().removeAll(fv.getSrcLinks());
                 refPane.getChildren().removeAll(fv.getTrgLinks());
