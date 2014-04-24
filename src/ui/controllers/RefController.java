@@ -58,6 +58,10 @@ public class RefController implements Initializable {
         });
     }
 
+    /**
+     * Method that handles what mode to set the tab to
+     * @param mode The mode to be set
+     */
     public void changeMode(RefMode mode) {
         switch (mode) {
             case MOVE :
@@ -72,6 +76,10 @@ public class RefController implements Initializable {
         }
     }
 
+    /**
+     * Method that iterates through the images
+     * and sets up the handlers for unlink mode
+     */
     private void setUnlinkMode() {
         for (FishView fv : fishImages)
             fv.setUnlinkMode();
@@ -79,6 +87,10 @@ public class RefController implements Initializable {
             fv.setUnlinkMode();
     }
 
+    /**
+     * Method that iterates through the images
+     * and sets up the handlers for link mode
+     */
     private void setLinkMode() {
         for (FishView fv : fishImages)
             fv.setLinkMode();
@@ -87,6 +99,10 @@ public class RefController implements Initializable {
             fv.setLinkMode();
     }
 
+    /**
+     * Method that iterates through the images
+     * and sets up the handlers for move mode
+     */
     private void setMoveMode() {
         for (FishView fv : fishImages)
             fv.setMoveMode();
@@ -94,10 +110,17 @@ public class RefController implements Initializable {
             fv.clearEventHadler();
     }
 
+    /**
+     * Method that sets what app this
+     * controller belongs to
+     */
     public void setApp(Main app) {
         this.app = app;
     }
 
+    /**
+     * Method that draws the images and links to the pane
+     */
     public void drawFish() {
         drawFields();
         refPane.getChildren().removeAll(fishImages);
@@ -123,6 +146,10 @@ public class RefController implements Initializable {
         drawLinks(fishImages);
     }
 
+    /**
+     * Method that draws the instance variable
+     * images and links to the pane
+     */
     void drawFields() {
         Node[] fishes = {
                 app.getGC().getRedRoot(),
@@ -170,14 +197,27 @@ public class RefController implements Initializable {
         drawLinks(localFish);
     }
 
+    /**
+     * Method that returns the images of the fish
+     * @return This objects fish images
+     */
     public List<FishView> getFishes() {
         return fishImages;
     }
 
+    /**
+     * Method that returns the images of the fish
+     * @return This objects local variable images
+     */
     public List<FishView> getLocals() {
         return localFish;
     }
 
+    /**
+     * Method that iterated through a list and draws
+     * any links that they have.
+     * @param fishImages The list of images to draw links between
+     */
     private void drawLinks(List<FishView> fishImages) {
         for (FishView fv : fishImages) {
             refPane.getChildren().removeAll(fv.getSrcLinks());
@@ -188,10 +228,18 @@ public class RefController implements Initializable {
         }
     }
 
+    /**
+     * Method that gets this controller's combobox
+     * @return This controller's combobox
+     */
     public ChoiceBox<String> getModeCombo() {
         return modeCombo;
     }
 
+    /**
+     * Method that iterates through the list of fishimages
+     * and removes any that have been deleted by the garbage collector
+     */
     public void removeFish() {
         Pane gcPane = app.getGcCon().getGcPane();
         List<FishView> gone = new ArrayList<>();
@@ -201,7 +249,6 @@ public class RefController implements Initializable {
             for (Node<Fish> node : fishes)
                 if (fv.hasFish(node)) found = true;
             if (!found) {
-
                 gone.add(fv);
                 refPane.getChildren().removeAll(fv.getSrcLinks());
                 refPane.getChildren().removeAll(fv.getTrgLinks());
@@ -209,10 +256,12 @@ public class RefController implements Initializable {
                 gcPane.getChildren().removeAll(fv.getTrgLinks());
             }
         }
+        // Remove the fish deleted
         refPane.getChildren().removeAll(gone);
         gcPane.getChildren().removeAll(gone);
         fishImages.removeAll(gone);
 
+        // Redraw them back
         refPane.getChildren().removeAll(fishImages);
         gcPane.getChildren().removeAll(fishImages);
         refPane.getChildren().addAll(fishImages);
