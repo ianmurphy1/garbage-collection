@@ -129,6 +129,8 @@ public class MemoryController implements Initializable {
      */
     public void drawLines() {
         List<javafx.scene.Node> lines = new ArrayList<>();
+        // Find all the lines or circles that are contained within the
+        // tab
         for (javafx.scene.Node n : mainPane.getChildren()) {
             if (n instanceof Line || n instanceof Circle) lines.add(n);
         }
@@ -136,6 +138,9 @@ public class MemoryController implements Initializable {
         List<Node<Fish>> objectList = Arrays.asList(app.getGC().getObjects());
         List<Node<Fish>> memoryList = Arrays.asList(app.getGC().getFromSpace());
 
+        // Go through all objects in the object list and compare them to
+        // those in the memory list. If they match then draw the lines
+        // between them and display them on the tab.
         for (Node<Fish> fObj : objectList) {
             for (Node<Fish> f : memoryList) {
                 if ((fObj == f) && f != null ) {
