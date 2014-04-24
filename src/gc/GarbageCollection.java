@@ -77,32 +77,44 @@ public class GarbageCollection {
         liveSet.addAll(redTree.build(Order.PRE_ORDER));
         liveSet.addAll(blueTree.build(Order.PRE_ORDER));
         liveSet.addAll(yellowTree.build(Order.PRE_ORDER));
+        System.out.println(liveSet);
     }
 
     public void copy() {
         buildLiveSet();
-        int i = 0;
+        clearObjects();
         for (Node<Fish> node : liveSet) {
-            if (!node.equals(redRoot) && !node.equals(blueRoot) && !node.equals(yellowRoot))
-                toSpace[i] = node;
-            i++;
+            if (!isRoot(node)) {
+                addToToSpace(node);
+                addToObjects(node);
+            }
         }
         fromSpace = toSpace;
         toSpace = new Node[MEMORY_SIZE];
+
+        for (int i = 0; i < fromSpace.length; i++) {
+            if (fromSpace[i] == null) break;
+            System.out.println("From Space: " + fromSpace[i]);
+        }
+    }
+
+    private void clearObjects() {
+        for (int i = 0; i < objects.length; i++)
+            objects[i] = null;
+    }
+
+    private boolean isRoot(Node<Fish> node) {
+        return node.equals(redRoot) || node.equals(blueRoot) || node.equals(yellowRoot);
     }
 
     public boolean addRef(Node<Fish> parentNode, Node<Fish> childNode) {
-        if (childNode.hasChildren() && (!redTree.getRoot().equals(childNode)
-                                    ||  !blueTree.getRoot().equals(childNode)
-                                    ||  !yellowTree.getRoot().equals(childNode)))
+        if (childNode.hasChildren() && !isRoot(childNode))
             removeChild(childNode, parentNode);
 
         /**
          * Keep instance variables as root of trees
          */
-        if (redTree.getRoot().equals(childNode)
-                || blueTree.getRoot().equals(childNode)
-                || yellowTree.getRoot().equals(childNode))
+        if (isRoot(childNode))
             addChild(childNode, parentNode);
         else addChild(parentNode, childNode);
 
@@ -187,7 +199,7 @@ public class GarbageCollection {
         else if (type == FishType.YELLOW)
             newNode = new Node<Fish>(new YellowFish());
 
-        if (isFull() || findSpace(newNode) == -1) throw new IllegalStateException();
+        if (isFull() || findSpace(fromSpace, newNode) == -1) throw new IllegalStateException();
         addToFromSpace(newNode);
         addToObjects(newNode);
         return newNode;
@@ -202,13 +214,13 @@ public class GarbageCollection {
         }
     }
 
-    private int findSpace(Node<Fish> f) {
+    private int findSpace(Node<Fish>[] fishes, Node<Fish> f) {
         int size = f.getData().getClass().getDeclaredFields().length;
 
-        for (int i = 0; i < fromSpace.length; i++) {
-            if (fromSpace[i] == null) {
+        for (int i = 0; i < fishes.length; i++) {
+            if (fishes[i] == null) {
                 int moreRequired = size - 1;
-                for (int j = i + 1; moreRequired > 0 && fromSpace[j] == null; j++) {
+                for (int j = i + 1; moreRequired > 0 && fishes[j] == null; j++) {
                     moreRequired--;
                 }
                 if (moreRequired == 0) {
@@ -222,7 +234,7 @@ public class GarbageCollection {
 
     private void addToFromSpace(Node<Fish> data) {
         int size = data.getData().getClass().getDeclaredFields().length;
-        int start = findSpace(data);
+        int start = findSpace(fromSpace, data);
         System.out.println(start + " " + size);
         for (int i = 0; i < size; i++) {
             fromSpace[start + i] = data;
@@ -241,6 +253,15 @@ public class GarbageCollection {
                 break;
             }
             i++;
+        }
+    }
+
+    private void addToToSpace(Node<Fish> data) {
+        int size = data.getData().getClass().getDeclaredFields().length;
+        int start = findSpace(toSpace, data);
+        System.out.println(start + " " + size);
+        for (int i = 0; i < size; i++) {
+            toSpace[start + i] = data;
         }
     }
 

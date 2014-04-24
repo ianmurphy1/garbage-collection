@@ -16,11 +16,13 @@ import tree.Node;
 import ui.icons.FieldView;
 import ui.icons.FishView;
 import ui.Main;
+import ui.icons.Link;
 
 import java.awt.*;
 import java.awt.Color;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -40,7 +42,7 @@ public class RefController implements Initializable {
     @FXML
     private List<FishView> fishImages = new ArrayList<>(50);
     @FXML
-    private List<FieldView> localFish = new ArrayList<>(3);
+    private List<FishView> localFish = new ArrayList<>(3);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -54,7 +56,6 @@ public class RefController implements Initializable {
                 changeMode(RefMode.valueOf(s2.toUpperCase()));
             }
         });
-        System.out.println("Hello");
     }
 
     public void changeMode(RefMode mode) {
@@ -72,7 +73,6 @@ public class RefController implements Initializable {
     }
 
     private void setUnlinkMode() {
-        System.out.println("Unlink Mode");
         for (FishView fv : fishImages)
             fv.setUnlinkMode();
         for (FishView fv : localFish)
@@ -80,7 +80,6 @@ public class RefController implements Initializable {
     }
 
     private void setLinkMode() {
-        System.out.println("Link Mode");
         for (FishView fv : fishImages)
             fv.setLinkMode();
 
@@ -89,7 +88,6 @@ public class RefController implements Initializable {
     }
 
     private void setMoveMode() {
-        System.out.println("Move Mode");
         for (FishView fv : fishImages)
             fv.setMoveMode();
         for (FishView fv : localFish)
@@ -122,9 +120,10 @@ public class RefController implements Initializable {
                 refPane.getChildren().add(jim);
             }
         }
+        drawLinks(fishImages);
     }
 
-    private void drawFields() {
+    void drawFields() {
         Node[] fishes = {
                 app.getGC().getRedRoot(),
                 app.getGC().getBlueRoot(),
@@ -136,7 +135,7 @@ public class RefController implements Initializable {
         for (Node<Fish> node : fishes) {
             boolean drawn = false;
             if (node == null) break;
-            for (FieldView fv : localFish) {
+            for (FishView fv : localFish) {
                 if (fv.hasFish(node)) {
                     drawn = true;
                     break;
@@ -168,14 +167,51 @@ public class RefController implements Initializable {
                 i++;
             }
         }
-
+        drawLinks(localFish);
     }
 
     public List<FishView> getFishes() {
         return fishImages;
     }
 
-    public List<FieldView> getLocals() {
+    public List<FishView> getLocals() {
         return localFish;
+    }
+
+    private void drawLinks(List<FishView> fishImages) {
+        for (FishView fv : fishImages) {
+            refPane.getChildren().removeAll(fv.getSrcLinks());
+            for (Link l : fv.getSrcLinks()) {
+                refPane.getChildren().add(l);
+                l.toBack();
+            }
+        }
+    }
+
+    public void removeFish() {
+        Pane gcPane = app.getGcCon().getGcPane();
+
+        List<FishView> gone = new ArrayList<>();
+        Node<Fish>[] fishes = app.getGC().getFromSpace();
+        for (FishView fv : fishImages) {
+            boolean found = false;
+            for (Node<Fish> node : fishes)
+                if (fv.hasFish(node)) found = true;
+            if (!found) {
+                gone.add(fv);
+                refPane.getChildren().removeAll(fv.getSrcLinks());
+                refPane.getChildren().removeAll(fv.getTrgLinks());
+                gcPane.getChildren().removeAll(fv.getSrcLinks());
+                gcPane.getChildren().removeAll(fv.getTrgLinks());
+            }
+        }
+        refPane.getChildren().removeAll(gone);
+        gcPane.getChildren().removeAll(gone);
+        fishImages.removeAll(gone);
+
+        refPane.getChildren().removeAll(fishImages);
+        gcPane.getChildren().removeAll(fishImages);
+        refPane.getChildren().addAll(fishImages);
+        gcPane.getChildren().addAll(fishImages);
     }
 }

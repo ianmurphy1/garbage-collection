@@ -36,7 +36,6 @@ public class MemoryController implements Initializable {
 
     public void setApp(Main app) {
         this.app = app;
-        System.out.println("App set");
     }
 
     @FXML
@@ -59,7 +58,7 @@ public class MemoryController implements Initializable {
         }
     }
 
-    private ObservableList<Rectangle> convertList(Node<Fish>[] fromSpace) {
+    ObservableList<Rectangle> convertList(Node<Fish>[] fromSpace) {
         List<Rectangle> rects = new ArrayList<>();
         double width = objects.getWidth();
 
@@ -88,6 +87,14 @@ public class MemoryController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("Hello");
+    }
+
+    public ListView<Rectangle> getMemory() {
+        return memory;
+    }
+
+    public ListView<Rectangle> getObjects() {
+        return objects;
     }
 
     public void drawLines() {

@@ -1,13 +1,21 @@
 package ui.controllers;
 
 import fish.Fish;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.control.Button;
 import tree.Node;
 import ui.icons.FieldView;
 import ui.icons.FishView;
 import ui.Main;
+import ui.icons.Link;
 
 import java.net.URL;
 import java.util.List;
@@ -21,6 +29,13 @@ public class GCController implements Initializable{
     private Main app;
 
     @FXML
+    private Button gcButton;
+
+    public Pane getGcPane() {
+        return gcPane;
+    }
+
+    @FXML
     private Pane gcPane;
 
     public void setApp(Main app) {
@@ -29,8 +44,40 @@ public class GCController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        gcButton.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    @Override public void handle(MouseEvent e) {
+                        gcButton.setEffect(new DropShadow());
+                    }
+                });
+        //Removing the shadow when the mouse cursor is off
+        gcButton.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    @Override public void handle(MouseEvent e) {
+                        gcButton.setEffect(null);
+                    }
+                });
 
-        System.out.println("Hello");
+        gcButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                app.getGC().copy();
+                app.getMemc().getObjects().setItems(app.getMemc().convertList(app.getGC().getObjects()));
+                app.getMemc().getMemory().setItems(app.getMemc().convertList(app.getGC().getFromSpace()));
+                redraw();
+            }
+        });
+    }
+
+    private void redraw() {
+        app.getRefc().removeFish();
+        app.getRefc().drawFish();
+        drawFish();
+    }
+
+    private void clearHandlers(List<FishView> views) {
+        for (FishView fv : views)
+            fv.clearEventHadler();
     }
 
     public void drawFish() {
@@ -56,10 +103,12 @@ public class GCController implements Initializable{
                 gcPane.getChildren().add(jim);
             }
         }
+        drawLinks(fishImages);
+        clearHandlers(fishImages);
     }
 
     private void drawFields() {
-        List<FieldView> localFish = app.getRefc().getLocals();
+        List<FishView> localFish = app.getRefc().getLocals();
         Node[] fishes = {
                 app.getGC().getRedRoot(),
                 app.getGC().getBlueRoot(),
@@ -84,6 +133,18 @@ public class GCController implements Initializable{
                 localFish.add(jim);
                 gcPane.getChildren().add(jim);
                 i++;
+            }
+        }
+        drawLinks(localFish);
+        clearHandlers(localFish);
+    }
+
+    private void drawLinks(List<FishView> fishImages) {
+        for (FishView fv : fishImages) {
+            gcPane.getChildren().removeAll(fv.getSrcLinks());
+            for (Link l : fv.getSrcLinks()) {
+                gcPane.getChildren().add(l);
+                l.toBack();
             }
         }
     }

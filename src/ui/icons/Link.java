@@ -15,6 +15,15 @@ import ui.Main;
  */
 public class Link extends Line {
     private Main app;
+
+    public FishView getSrc() {
+        return src;
+    }
+
+    public FishView getTrg() {
+        return trg;
+    }
+
     private FishView src, trg;
     private final double STROKE_WIDTH = 1.5d;
     private final double HIGHLIGHTED_STROKE_WIDTH = 3.5d;

@@ -197,7 +197,7 @@ public class FishView extends ImageView {
                     Dialogs.create()
                             .title("Error")
                             .masthead("Unsupported")
-                            .message("Cannot Link these fish\n Select Higher order Fish First")
+                            .message("Cannot Link these fish\nSelect Higher order Fish First")
                             .showError();
                 } catch (IllegalClassFormatException e) {
                     Dialogs.create().title("Error")
@@ -216,6 +216,8 @@ public class FishView extends ImageView {
         if (src instanceof FieldView && srcNode.getData().getClass() != trgNode.getData().getClass())
             throw new IllegalClassFormatException();
         if (srcNode.getData().linkable(trgNode.getData())) {
+            srcNode.addChild(trgNode);
+
             Point2D p1 = getLocation(src);
             Point2D p2 = getLocation(trg);
 
@@ -244,7 +246,20 @@ public class FishView extends ImageView {
         return fv.localToParent(x, y);
     }
 
+    public List<Link> getSrcLinks() {
+        return srcLinks;
+    }
+
+    public List<Link> getTrgLinks() {
+        return trgLinks;
+    }
+
     public void removeLink(Link l) {
+        Node<Fish> src = l.getSrc().getFish();
+        Node<Fish> trg = l.getTrg().getFish();
+
+        src.removeChild(trg);
+
         srcLinks.remove(l);
         trgLinks.remove(l);
     }
