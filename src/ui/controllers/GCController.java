@@ -60,6 +60,7 @@ public class GCController implements Initializable{
         gcButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                boolean empty = app.getGC().isMemEmpty();
                 app.getGC().copy();
                 if (!app.getGC().objectsIsEmpty()) {
                     highlightFish();
@@ -68,8 +69,12 @@ public class GCController implements Initializable{
                             .masthead(null)
                             .message("The fish in black will be deleted")
                             .showInformation();
-                    app.getMemc().getObjects().setItems(app.getMemc().convertList(app.getGC().getObjects()));
-                    app.getMemc().getMemory().setItems(app.getMemc().convertList(app.getGC().getFromSpace()));
+                } else if (empty) {
+                    Dialogs.create()
+                            .title("Garbage Collection")
+                            .masthead(null)
+                            .message("No Objects to Delete")
+                            .showInformation();
                 } else {
                     Dialogs.create()
                             .title("Garbage Collection")
@@ -77,6 +82,8 @@ public class GCController implements Initializable{
                             .message("All Objects Will Be Deleted")
                             .showInformation();
                 }
+                app.getMemc().getObjects().setItems(app.getMemc().convertList(app.getGC().getObjects()));
+                app.getMemc().getMemory().setItems(app.getMemc().convertList(app.getGC().getFromSpace()));
                 redraw();
             }
         });

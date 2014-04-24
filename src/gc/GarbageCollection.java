@@ -372,6 +372,14 @@ public class GarbageCollection {
     }
 
     /**
+     * Method that checks if the fromSpace is empty
+     * @return true if empty, false otherwise
+     */
+    public boolean isMemEmpty() {
+        return fromSpace[0] == null;
+    }
+
+    /**
      * Method that checks if the objects list is empty
      * @return true if empty, false otherwise
      */
