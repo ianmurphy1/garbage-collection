@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
+ * Controller that controls the reference tab in the GUI
+ *
  * @author Ian Murphy - 20057028
  *         Date: 21/04/2014
  */
