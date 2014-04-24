@@ -22,6 +22,8 @@ import java.net.URL;
 import java.util.*;
 
 /**
+ * Controller for the Memory Tab of this application
+ *
  * @author Ian Murphy - 20057028
  *         Date: 21/04/2014
  */
@@ -38,6 +40,11 @@ public class MemoryController implements Initializable {
         this.app = app;
     }
 
+    /**
+     * Method that tries to creates a fish object.
+     * @param event Which button was pressed
+     * @see gc.GarbageCollection#createFish(fish.FishType)
+     */
     @FXML
     void createFish(MouseEvent event) {
         Button btn = (Button) event.getSource();
@@ -62,12 +69,18 @@ public class MemoryController implements Initializable {
         }
     }
 
-    ObservableList<Rectangle> convertList(Node<Fish>[] fromSpace) {
+    /**
+     * Method that converts the items in the memory to rectangles
+     * so that they can be shown on the memorytab
+     * @param arr The array to be iterated through
+     * @return List of Rectangles to be displayed
+     */
+    ObservableList<Rectangle> convertList(Node<Fish>[] arr) {
         List<Rectangle> rects = new ArrayList<>();
         double width = objects.getWidth();
 
         Rectangle r = null;
-        for (Node<Fish> node : fromSpace) {
+        for (Node<Fish> node : arr) {
             if (node == null) break;
 
             switch (node.getData().getType()) {
@@ -90,17 +103,30 @@ public class MemoryController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
 
+    /**
+     * Method that returns this tabs list of rectangles
+     * that represent memory
+     * @return Memory List
+     */
     public ListView<Rectangle> getMemory() {
         return memory;
     }
 
+    /**
+     * Method that returns this tabs list of rectangles
+     * that represent objects
+     * @return Object List
+     */
     public ListView<Rectangle> getObjects() {
         return objects;
     }
 
+    /**
+     * Method that draws lines between the objects and memory list
+     * and shows how the objects take up space in memory
+     */
     public void drawLines() {
         List<javafx.scene.Node> lines = new ArrayList<>();
         for (javafx.scene.Node n : mainPane.getChildren()) {
