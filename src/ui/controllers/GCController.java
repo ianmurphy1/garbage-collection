@@ -1,24 +1,20 @@
 package ui.controllers;
 
 import fish.Fish;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
+import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.control.Button;
 import org.controlsfx.dialog.Dialogs;
 import tree.Node;
+import ui.Main;
 import ui.icons.FieldView;
 import ui.icons.FishView;
-import ui.Main;
 import ui.icons.Link;
 
-import javax.swing.text.html.ImageView;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,10 +61,22 @@ public class GCController implements Initializable{
             @Override
             public void handle(MouseEvent mouseEvent) {
                 app.getGC().copy();
-                highlightFish();
-                Dialogs.create().title("Garbage Collection").masthead(null).message("The fish in black will be deleted").showInformation();
-                app.getMemc().getObjects().setItems(app.getMemc().convertList(app.getGC().getObjects()));
-                app.getMemc().getMemory().setItems(app.getMemc().convertList(app.getGC().getFromSpace()));
+                if (!app.getGC().objectsIsEmpty()) {
+                    highlightFish();
+                    Dialogs.create()
+                            .title("Garbage Collection")
+                            .masthead(null)
+                            .message("The fish in black will be deleted")
+                            .showInformation();
+                    app.getMemc().getObjects().setItems(app.getMemc().convertList(app.getGC().getObjects()));
+                    app.getMemc().getMemory().setItems(app.getMemc().convertList(app.getGC().getFromSpace()));
+                } else {
+                    Dialogs.create()
+                            .title("Garbage Collection")
+                            .masthead(null)
+                            .message("No Objects To Delete")
+                            .showInformation();
+                }
                 redraw();
             }
         });

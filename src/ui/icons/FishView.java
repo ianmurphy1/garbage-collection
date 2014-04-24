@@ -257,9 +257,7 @@ public class FishView extends ImageView {
     public void removeLink(Link l) {
         Node<Fish> src = l.getSrc().getFish();
         Node<Fish> trg = l.getTrg().getFish();
-
         src.removeChild(trg);
-
         srcLinks.remove(l);
         trgLinks.remove(l);
     }

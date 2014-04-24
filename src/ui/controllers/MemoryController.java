@@ -90,7 +90,7 @@ public class MemoryController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("Hello");
+
     }
 
     public ListView<Rectangle> getMemory() {

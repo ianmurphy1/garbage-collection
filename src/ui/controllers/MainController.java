@@ -33,7 +33,6 @@ public class MainController implements Initializable {
                 drawFish(tab2);
             }
         });
-        System.out.println("Main");
     }
 
     @FXML
