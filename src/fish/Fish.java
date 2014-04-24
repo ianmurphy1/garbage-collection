@@ -27,7 +27,7 @@ public abstract class Fish {
      * @return Fish's Image
      */
     public Image loadImage(FishType type) {
-        return new Image("\\images\\" + type.name().toLowerCase() + ".png");
+        return new Image("/images/" + type.name().toLowerCase() + ".png");
     }
 
     /**
@@ -74,6 +74,6 @@ public abstract class Fish {
      * @return Fish's image
      */
     private Image loadImage() {
-        return new Image("\\images\\black" + this.type.name().toLowerCase() + ".png");
+        return new Image("/images/black" + this.type.name().toLowerCase() + ".png");
     }
 }

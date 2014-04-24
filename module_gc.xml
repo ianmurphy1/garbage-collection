@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_gc" default="compile.module.gc">
+  <dirname property="module.gc.basedir" file="${ant.file.module_gc}"/>
+  
+  <property name="module.jdk.home.gc" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.gc" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.gc" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.gc" value="-encoding UTF-8 -source 1.7 ${compiler.args}"/>
+  
+  <property name="gc.output.dir" value="${module.gc.basedir}/out/production/gc"/>
+  <property name="gc.testoutput.dir" value="${module.gc.basedir}/out/test/gc"/>
+  
+  <path id="gc.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="gc.module.production.classpath">
+    <path refid="${module.jdk.classpath.gc}"/>
+    <path refid="library.controlsfx-8.0.5.classpath"/>
+  </path>
+  
+  <path id="gc.runtime.production.module.classpath">
+    <pathelement location="${gc.output.dir}"/>
+    <path refid="library.controlsfx-8.0.5.classpath"/>
+  </path>
+  
+  <path id="gc.module.classpath">
+    <path refid="${module.jdk.classpath.gc}"/>
+    <pathelement location="${gc.output.dir}"/>
+    <path refid="library.controlsfx-8.0.5.classpath"/>
+  </path>
+  
+  <path id="gc.runtime.module.classpath">
+    <pathelement location="${gc.testoutput.dir}"/>
+    <pathelement location="${gc.output.dir}"/>
+    <path refid="library.controlsfx-8.0.5.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.gc">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.gc">
+    <patternset refid="excluded.from.module.gc"/>
+  </patternset>
+  
+  <path id="gc.module.sourcepath">
+    <dirset dir="${module.gc.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.gc" depends="compile.module.gc.production,compile.module.gc.tests" description="Compile module gc"/>
+  
+  <target name="compile.module.gc.production" description="Compile module gc; production classes">
+    <mkdir dir="${gc.output.dir}"/>
+    <javac destdir="${gc.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.gc}/javac">
+      <compilerarg line="${compiler.args.gc}"/>
+      <bootclasspath refid="gc.module.bootclasspath"/>
+      <classpath refid="gc.module.production.classpath"/>
+      <src refid="gc.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.gc"/>
+    </javac>
+    
+    <copy todir="${gc.output.dir}">
+      <fileset dir="${module.gc.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.gc.tests" depends="compile.module.gc.production" description="compile module gc; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.gc" description="cleanup module">
+    <delete dir="${gc.output.dir}"/>
+    <delete dir="${gc.testoutput.dir}"/>
+  </target>
+</project>

@@ -74,7 +74,7 @@ public class GCController implements Initializable{
                     Dialogs.create()
                             .title("Garbage Collection")
                             .masthead(null)
-                            .message("No Objects To Delete")
+                            .message("All Objects Will Be Deleted")
                             .showInformation();
                 }
                 redraw();

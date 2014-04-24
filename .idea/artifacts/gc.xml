@@ -1,0 +1,22 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" build-on-make="true" name="gc">
+    <output-path>$PROJECT_DIR$/out/artifacts/gc</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="ui.Main" />
+        <option name="convertCss2Bin" value="true" />
+        <option name="description" value="" />
+        <option name="htmlParamFile" value="" />
+        <option name="paramFile" value="" />
+        <option name="title" value="Garbage Collection" />
+        <option name="vendor" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="gc.jar">
+        <element id="module-output" name="gc" />
+        <element id="library" level="project" name="controlsfx-8.0.5" />
+      </element>
+    </root>
+  </artifact>
+</component>
