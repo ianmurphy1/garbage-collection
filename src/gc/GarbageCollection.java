@@ -326,7 +326,6 @@ public class GarbageCollection {
     private void addToFromSpace(Node<Fish> data) {
         int size = data.getData().getClass().getDeclaredFields().length;
         int start = findSpace(fromSpace, data);
-        System.out.println(start + " " + size);
         for (int i = 0; i < size; i++) {
             fromSpace[start + i] = data;
         }
