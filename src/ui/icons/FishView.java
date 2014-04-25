@@ -249,6 +249,11 @@ public class FishView extends ImageView {
                             .masthead("Unsupported")
                             .message("Local Variable must reference a fish of the same colour")
                             .showError();
+                } catch (ClassCastException e) {
+                    Dialogs.create().title("Error")
+                            .masthead("Unsupported")
+                            .message("Cannot link to Local Var\nLink from.")
+                            .showError();
                 }
             }
         });
@@ -261,9 +266,12 @@ public class FishView extends ImageView {
      * @throws UnsupportedOperationException
      * @throws IllegalClassFormatException
      */
-    public void createLink(FishView src, FishView trg) throws UnsupportedOperationException, IllegalClassFormatException {
+    public void createLink(FishView src, FishView trg) throws UnsupportedOperationException, IllegalClassFormatException, ClassCastException {
         Node<Fish> srcNode = src.getFish();
         Node<Fish> trgNode = trg.getFish();
+
+        if (trg instanceof FieldView) throw new ClassCastException();
+
         // Check if a localvar can be set
         if (src instanceof FieldView && srcNode.getData().getClass() != trgNode.getData().getClass())
             throw new IllegalClassFormatException();

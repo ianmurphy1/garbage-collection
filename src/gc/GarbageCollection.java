@@ -22,9 +22,9 @@ public class GarbageCollection {
     private final int MEMORY_SIZE = 50; //Memory size of the project
 
 
-    private Node<Fish>[] toSpace = new Node[MEMORY_SIZE];
-    private Node<Fish>[] fromSpace = new Node[MEMORY_SIZE];
-    private Node<Fish>[] objects = new Node[MEMORY_SIZE];
+    private Node[] toSpace = new Node[MEMORY_SIZE];
+    private Node[] fromSpace = new Node[MEMORY_SIZE];
+    private Node[] objects = new Node[MEMORY_SIZE];
 
     // Trees for the children of the coloured roots
     private Tree<Fish> redTree = new Tree<Fish>();
@@ -173,8 +173,12 @@ public class GarbageCollection {
         /**
          * Keep instance variables as root of trees
          */
-        if (isRoot(childNode))
-            addChild(childNode, parentNode);
+        if (isRoot(childNode)) {
+            Node<Fish> temp = parentNode;
+            parentNode = childNode;
+            childNode = parentNode;
+            addChild(parentNode, childNode);
+        }
         else addChild(parentNode, childNode);
 
         Fish parent = parentNode.getData();
